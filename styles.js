@@ -7,6 +7,6 @@ export const View = styled.View`
 `;
 
 export const TextInput = styled.TextInput`
-  border-width: 1;
+  border-width: 1px;
   padding: 10px;
 `;

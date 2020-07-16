@@ -1,52 +1,47 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import firebase from 'react-native-firebase';
 
 import {View, TextInput} from './styles';
 
-class App extends Component {
-  state = {
-    email: '',
-    password: '',
-    isAuthentiate: false,
-  };
+const App = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isAuthentiated, setIsAuthenticated] = useState(false);
 
-  login = async () => {
-    const {email, password} = this.state;
-
+  const login = async () => {
     try {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
 
-      this.setState({isAuthentiate: true});
+      setIsAuthenticated(true);
+
       console.log(user);
     } catch (error) {
       console.log(error);
     }
   };
 
-  render() {
-    return (
-      <View>
-        <TextInput
-          placeholder="email"
-          value={this.state.email}
-          onChangeText={(email) => this.setState({email})}
-        />
-        <TextInput
-          placeholder="password"
-          value={this.state.password}
-          onChangeText={(password) => this.setState({password})}
-        />
-        <TouchableOpacity onPress={this.login}>
-          <Text>Login</Text>
-        </TouchableOpacity>
+  return (
+    <View>
+      <TextInput
+        placeholder="email"
+        value={email}
+        onChangeText={(userEmail) => setEmail(userEmail)}
+      />
+      <TextInput
+        placeholder="password"
+        value={password}
+        onChangeText={(userPassword) => setPassword(userPassword)}
+      />
+      <TouchableOpacity onPress={login}>
+        <Text>Login</Text>
+      </TouchableOpacity>
 
-        {this.state.isAuthentiate ? <Text>Logadoo</Text> : null}
-      </View>
-    );
-  }
-}
+      {isAuthentiated ? <Text>Logadoo</Text> : null}
+    </View>
+  );
+};
 
 export default App;
